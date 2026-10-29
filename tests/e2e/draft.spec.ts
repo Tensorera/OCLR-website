@@ -124,12 +124,17 @@ test.describe("isolated multi-captain rehearsal", () => {
         () => (window as unknown as { copied: string }).copied,
       ),
     ).toBe(`http://127.0.0.1:3100/tournaments/${slug}/draft/overlay`);
+    await staff.page
+      .locator(".obs-source-link")
+      .getByRole("button", { name: "Notes", exact: true })
+      .click();
     await expect(
       staff.page.getByText(
         "Only released draft information appears in the overlay.",
         { exact: true },
       ),
     ).toBeVisible();
+    await staff.page.keyboard.press("Escape");
     await spectator.page.goto(`/tournaments/${slug}/draft`);
     const closedRegistration = await spectator.context.newPage();
     await closedRegistration.goto(`/tournaments/${slug}/register`);

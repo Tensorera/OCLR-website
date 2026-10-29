@@ -93,6 +93,10 @@ test.describe("scoped staff roles through real HTTP sessions", () => {
         .selectOption("test-cup");
       await page.getByRole("button", { name: "Review role grant" }).click();
       await page.getByRole("button", { name: "Confirm", exact: true }).click();
+      await assignment
+        .locator("summary")
+        .filter({ hasText: "About visibility and revocation" })
+        .click();
       await expect(
         assignment.getByRole("button", { name: "Revoke role" }),
       ).toBeVisible();

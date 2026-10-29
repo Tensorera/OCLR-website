@@ -309,7 +309,7 @@ test.describe("referee command workspace", () => {
     ).toBeVisible();
     await expect(summary).toContainText("BAN NM1");
   });
-  test("keeps every appearance usable in light/dark and all locales", async ({
+  test("keeps every appearance usable in light/dark and all locales @full", async ({
     page,
     context,
     isMobile,
