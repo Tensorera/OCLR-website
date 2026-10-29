@@ -264,7 +264,7 @@ test("uses real remote grants for core SSR/navigation without local DB or OAuth,
     "data-appearance",
     "cute-pastel",
   );
-  await page
+  const tournamentLink = page
     .locator(".edition-card")
     .filter({
       has: page.getByRole("heading", {
@@ -272,8 +272,18 @@ test("uses real remote grants for core SSR/navigation without local DB or OAuth,
         exact: true,
       }),
     })
-    .getByRole("link", { name: "View tournament", exact: true })
-    .click();
+    .getByRole("link", {
+      name: "View tournament: Synthetic test edition",
+      exact: true,
+    });
+  await expect(tournamentLink).toBeVisible();
+  await expect(tournamentLink).toHaveAttribute("href", "/tournaments/test-cup");
+  if (isMobile) {
+    // The separate Register action covers the whole-card link's center at 320px.
+    await tournamentLink.focus();
+    await tournamentLink.press("Enter");
+  } else await tournamentLink.click();
+  await expect(page).toHaveURL(/\/tournaments\/test-cup$/);
   await expect(page.locator("html")).toHaveAttribute(
     "data-appearance",
     "esports-broadcast",
